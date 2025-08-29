@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block content %}
+  <h1>{{ student.name }} <small>(Roll: {{ student.roll_number }})</small></h1>
+  <div class="row">
+    <a class="btn" href="{{ url_for('add_grades', student_id=student.id) }}">Add Grade</a>
+  </div>
+  {% if student.grades %}
+    <table class="table">
+      <thead><tr><th>Subject</th><th>Score</th><th>Action</th></tr></thead>
+      <tbody>
+      {% for g in student.grades %}
+        <tr>
+          <td>{{ g.subject }}</td>
+          <td>{{ g.score }}</td>
+          <td>
+            <form method="post" action="{{ url_for('delete_grade', grade_id=g.id) }}" onsubmit="return confirm('Delete grade?');">
+              <button class="btn-danger" type="submit">Delete</button>
+            </form>
+          </td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+    <p><strong>Average:</strong>
+      {% if student.average() is not none %} {{ "%.2f"|format(student.average()) }} {% else %} N/A {% endif %}
+    </p>
+  {% else %}
+    <p>No grades yet.</p>
+  {% endif %}
+{% endblock %}

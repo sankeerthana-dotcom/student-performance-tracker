@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block content %}
+  <h1>Dashboard</h1>
+  <div class="grid">
+    <div class="card"><h3>Total Students</h3><p>{{ total_students }}</p></div>
+    <div class="card"><h3>Total Grades</h3><p>{{ total_grades }}</p></div>
+    <div class="card"><h3>Class Average</h3><p>{{ "%.2f"|format(class_avg) if class_avg is not none else "N/A" }}</p></div>
+  </div>
+  <p class="mt"><a class="btn" href="{{ url_for('add_student') }}">Add a new student</a></p>
+{% endblock %}

@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block content %}
+  <h1>Students</h1>
+  <form method="get" class="row">
+    <input type="text" name="q" placeholder="Search name or roll no." value="{{ q or '' }}">
+    <button class="btn" type="submit">Search</button>
+  </form>
+  {% if students %}
+    <table class="table">
+      <thead><tr><th>Name</th><th>Roll No.</th><th>Average</th><th>Actions</th></tr></thead>
+      <tbody>
+      {% for s in students %}
+        <tr>
+          <td><a href="{{ url_for('student_details', student_id=s.id) }}">{{ s.name }}</a></td>
+          <td>{{ s.roll_number }}</td>
+          <td>
+            {% if s.average() is not none %} {{ "%.2f"|format(s.average()) }} {% else %} N/A {% endif %}
+          </td>
+          <td class="actions">
+            <a class="btn-outline" href="{{ url_for('student_details', student_id=s.id) }}">View</a>
+            <form method="post" action="{{ url_for('delete_student', student_id=s.id) }}" onsubmit="return confirm('Delete student?');">
+              <button class="btn-danger" type="submit">Delete</button>
+            </form>
+          </td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <p>No students yet. <a href="{{ url_for('add_student') }}">Add one</a>.</p>
+  {% endif %}
+{% endblock %}

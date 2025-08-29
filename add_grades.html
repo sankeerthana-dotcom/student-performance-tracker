@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block content %}
+  <h1>Add Grade for {{ student.name }}</h1>
+  <form method="post" class="form">
+    <label>Subject</label>
+    <input type="text" name="subject" required>
+    <label>Score (0-100)</label>
+    <input type="number" name="score" min="0" max="100" step="0.01" required>
+    <button class="btn" type="submit">Add</button>
+  </form>
+{% endblock %}

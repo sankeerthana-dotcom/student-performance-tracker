@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block content %}
+  <h1>Topper by Subject</h1>
+  <form method="get" class="row">
+    <select name="subject">
+      <option value="">-- Select subject --</option>
+      {% for s in subjects %}
+        <option value="{{ s }}" {% if subject and subject.lower()==s.lower() %}selected{% endif %}>{{ s }}</option>
+      {% endfor %}
+    </select>
+    <button class="btn" type="submit">Find</button>
+  </form>
+  {% if subject %}
+    {% if topper %}
+      {% set student, grade = topper %}
+      <div class="card mt">
+        <h3>{{ student.name }} (Roll: {{ student.roll_number }})</h3>
+        <p><strong>Subject:</strong> {{ grade.subject }} | <strong>Score:</strong> {{ grade.score }}</p>
+        <a class="btn-outline" href="{{ url_for('student_details', student_id=student.id) }}">View Student</a>
+      </div>
+    {% else %}
+      <p>No grades found for subject <strong>{{ subject }}</strong>.</p>
+    {% endif %}
+  {% endif %}
+{% endblock %}
